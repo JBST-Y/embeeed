@@ -1,8 +1,8 @@
 #include <stdio.h>
-#include “myProject.h"
+#include "myProject.h"
 
-int printMyName3(void) /
+int printMyName3(void) 
 {
-printf (“1. my name is yubin lee\n”);
+printf ("3. my name is yubin lee\n");
 return 1;
 }
