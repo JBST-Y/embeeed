@@ -1,21 +1,10 @@
-all: libMyPeri.a buzzertest
-
-libMyPeri.a: led.o button.o buzzer.o
-        arm-linux-gnueabi-ar rc libMyPeri.a led.o button.o  buzzer.o
-
-led.o: led.h led.c
-        arm-linux-gnueabi-gcc led.c -o led.o -c
-
-button.o: button.h button.c
-        arm-linux-gnueabi-gcc button.c -o button.o -c
-
-buzzer.o: buzzer.h buzzer.c
-        arm-linux-gnueabi-gcc buzzer.c -o buzzer.o -c
-
-buzzertest: led.h button.h buzzer.h libMyPeri.a
-        arm-linux-gnueabi-gcc --static -c -o buzzertest.o buzzertest.c
-        arm-linux-gnueabi-gcc buzzertest.o -l MyPeri -L. -lpthread -o buzzertest
-        scp buzzertest ecube@192.168.0.110:/home/ecube
-
-clean:
-        rm -rf *.o *.a buzzertest
+final.elf : 1.o 2.o 3.o main.o
+	gcc -o final.elf 1.o 2.o 3.o main.o
+main.o : main.c myProject.h
+	gcc -c main.c -o main.o
+1.o : 1.c myProject.h
+	gcc -c 1.c -o 1.o
+2.o : 2.c myProject.h
+	gcc -c 2.c -o 2.o
+3.o : 3.c myProject.h
+	gcc -c 3.c -o 3.o
