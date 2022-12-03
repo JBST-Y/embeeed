@@ -15,7 +15,10 @@
 
 int main(void)  
 {
-	int car_speed1, car_speed2;              // 보내줘야할 것(바퀴 2개)
+	int stop = 0;
+	int go1 = 0;
+	int go2 = 0;
+	int left = 0;                            // 보내줘야할 것(경우 4)
 
 	int obstacle;                            // 받아오기 ??(차량 흰색 -> 흰색 인식 -> car_speed=0)
 	int current_position;                    // 1: 일반도로  2: 어린이보호구역 (openCV로 확인 -> 받아오기)
@@ -35,18 +38,20 @@ int main(void)
 
 	lineFlag1 = textlcdwrite(str01, str1);
 
-	while (1) {
+	while (1) {                                                          //curl - s "192.168.6.7/gpio/0-4"     0:stop  1:go1   2:go2   3:left
 		if (current_position == 1) {
 			lineFlag2 = textlcdwrite(str02, str2);
 
-			car_speed1 = 2;
-			car_speed2 = 2;
+			stop = 0;
+			go2 = 1;
 			ledOnOff(255, 1);
+			execlp("curl", "curl", "-s", ""192.168.6.7/gpio/2"", (char *)0);
 
 			if (obstacle == 1) {
-				car_speed1 = 0;
-				car_speed2 = 0;
+				stop = 1;
+				go2 = 0;
 				ledOnOff(0, 0);
+				execlp("curl", "curl", "-s", ""192.168.6.7/gpio/0"", (char*)0);
 
 				buzzerInit();
 				freIndex = atoi(buffer2);
@@ -56,14 +61,16 @@ int main(void)
 			}
 
 			if (green1 == 1) {                    // 차량 신호를 차선으로부터 30cm일 때 인식??을 해야 됨... 
-				car_speed1 = 2;
-				car_speed2 = 2;
+				stop = 0;
+				go2 = 1;
+				execlp("curl", "curl", "-s", ""192.168.6.7/gpio/2"", (char *)0);
 				ledOnOff(255, 1);
 
 				if (obstacle == 1) {
-					car_speed1 = 0;
-					car_speed2 = 0;
+					stop = 1;
+					go2 = 0;
 					ledOnOff(0, 0);
+					execlp("curl", "curl", "-s", ""192.168.6.7/gpio/0"", (char*)0);
 
 					buzzerInit();
 					freIndex = atoi(buffer2);
@@ -73,13 +80,15 @@ int main(void)
 				}
 			}
 			else if (left_green1 == 1) {                                      
-				car_speed1 = 1;
-				car_speed2 = 2;
+				stop = 0;
+				left = 1;
 				ledOnOff(255, 1);
+				execlp("curl", "curl", "-s", ""192.168.6.7/gpio/3"", (char *)0);
 				if (obstacle == 1) {
-					car_speed1 = 0;
-					car_speed2 = 0;
+					stop = 1;
+					left = 0;
 					ledOnOff(0, 0);
+					execlp("curl", "curl", "-s", ""192.168.6.7/gpio/0"", (char*)0);
 
 					buzzerInit();
 					freIndex = atoi(buffer2);
@@ -89,26 +98,31 @@ int main(void)
 				}
 			}
 			else if (yellow1 == 1) {
-				car_speed1 = 0;
-				car_speed2 == 0;
+
+				stop = 1;
+				go2 = 0;
 				ledOnOff(0, 0);
+				execlp("curl", "curl", "-s", ""192.168.6.7/gpio/0"", (char*)0);
 			}
 			else if (red1 == 1) {
-				car_speed1 = 0;
-				car_speed2 = 0;
+				stop = 1;
+				go2 = 0;
 				ledOnOff(0, 0);
+				execlp("curl", "curl", "-s", ""192.168.6.7/gpio/0"", (char*)0);
 			}
 		}
 		else if (current_position == 2) {
 			lineFlag2 = textlcdwrite(str02, str3);
 
-			car_speed1 = 1;
-			car_speed2 = 1;
+			stop = 0;
+			go1 = 1;
 			ledOnOff(15, 1);
+			execlp("curl", "curl", "-s", ""192.168.6.7/gpio/1"", (char *)0);
 			if (obstacle == 1) {
-				car_speed1 = 0;
-				car_speed2 = 0;
+				stop = 1;
+				go1 = 0;
 				ledOnOff(0, 0);
+				execlp("curl", "curl", "-s", ""192.168.6.7/gpio/0"", (char*)0);
 
 				buzzerInit();
 				freIndex = atoi(buffer2);
@@ -118,13 +132,15 @@ int main(void)
 			}
 
 			if (green1 == 1) {
-				car_speed1 = 1;
-				car_speed2 = 1;
+				stop = 0;
+				go1 = 1;
+				execlp("curl", "curl", "-s", ""192.168.6.7/gpio/1"", (char *)0);
 				ledOnOff(15, 1);
 				if (obstacle == 1) {
-					car_speed1 == 0;
-					car_speed2 = 0;
+					stop = 1;
+					go1 = 0;
 					ledOnOff(0, 0);
+					execlp("curl", "curl", "-s", ""192.168.6.7/gpio/0"", (char*)0);
 
 					buzzerInit();
 					freIndex = atoi(buffer2);
@@ -134,13 +150,15 @@ int main(void)
 				}
 			}
 			if (left_green1 == 1) {
-				car_speed1 = 1;
-				car_speed2 = 2;
+				stop = 0;
+				left= 1;
 				ledOnOff(15, 1);
+				execlp("curl", "curl", "-s", ""192.168.6.7/gpio/3"", (char *)0);
 				if (obstacle == 1) {
-					car_speed1 == 0;
-					car_speed2 = 0;
+					stop = 1;
+					left = 0;
 					ledOnOff(0, 0);
+					execlp("curl", "curl", "-s", ""192.168.6.7/gpio/0"", (char*)0);
 
 					buzzerInit();
 					freIndex = atoi(buffer2);
@@ -150,14 +168,16 @@ int main(void)
 				}
 			}
 			else if (yellow1 == 1) {
-				car_speed1 = 0;
-				car_speed2 = 0;
+				stop = 1;
+				go1 = 0;
 				ledOnOff(0, 0);
+				execlp("curl", "curl", "-s", ""192.168.6.7/gpio/0"", (char*)0);
 			}
 			else if (red1 == 1) {
-				car_speed1 = 0;
-				car_speed2 = 0;
+				stop = 1;
+				go1 = 0;
 				ledOnOff(0, 0);
+				execlp("curl", "curl", "-s", ""192.168.6.7/gpio/0"", (char*)0);
 			}
 		}
 	}
