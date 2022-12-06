@@ -43,11 +43,12 @@ void loop() {
   String req = client.readStringUntil('\r');
   client.flush();
 
+   Serial.println(WiFi.localIP());
+
   int val=0;
   
     if (req.indexOf("/gpio/0") != -1){
-    val+=1;  
-    }
+    val=val+1;  
     if (val==1){
     pinMode(15, OUTPUT);
     pinMode(5, OUTPUT);
@@ -62,6 +63,7 @@ void loop() {
     digitalWrite(14, 0);
     digitalWrite(15, 1); 
     digitalWrite(16, 0);
+    Serial.println("1");
   }   
     else if (val==2){  
     pinMode(15, OUTPUT);
@@ -77,6 +79,7 @@ void loop() {
     digitalWrite(14, 0);
     digitalWrite(15, 1); 
     digitalWrite(16, 1);
+    Serial.println("2");
   }
     else if (val==3){
     pinMode(4, OUTPUT);
@@ -92,6 +95,7 @@ void loop() {
     digitalWrite(14, 0);
     digitalWrite(15, 1); 
     digitalWrite(16, 0);
+    Serial.println("3");
   }
     else if (val==4){
     pinMode(0, OUTPUT);
@@ -107,6 +111,7 @@ void loop() {
     digitalWrite(14, 0);
     digitalWrite(15, 0); 
     digitalWrite(16, 0);
+    Serial.println("4");
   }
     else if (val==5){
     pinMode(0, OUTPUT);
@@ -122,6 +127,7 @@ void loop() {
     digitalWrite(14, 1);
     digitalWrite(15, 0); 
     digitalWrite(16, 0);
+    Serial.println("5");
   }
     else if (val==6){
     pinMode(0, OUTPUT);
@@ -137,7 +143,9 @@ void loop() {
     digitalWrite(14, 0);
     digitalWrite(15, 0); 
     digitalWrite(16, 0);
+    Serial.println("6");
     val=0;
+   }
   }
     else if (req.indexOf("/gpio/1") != -1){
     pinMode(3, OUTPUT);
