@@ -74,6 +74,7 @@ int textlcdwrite(const char *str1, const char *str2)
     }
 
     len = strlen(str2);
+
     if(len > COLUMN_NUM)
     {
         memcpy(stlcd.TextData[stlcd.cmdData - 1], str2, COLUMN_NUM);
