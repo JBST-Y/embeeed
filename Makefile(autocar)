@@ -1,0 +1,21 @@
+all: libMyPeri.a autocartest
+
+libMyPeri.a: led.o button.o buzzer.o textlcd.o colorled.o
+	arm-linux-gnueabi-ar rc libMyPeri.a led.o button.o buzzer.o textlcd.o colorled.o
+
+led.o: led.h led.c
+	arm-linux-gnueabi-gcc led.c -o led.o -c
+button.o: button.h button.c
+	arm-linux-gnueabi-gcc button.c -o button.o -c
+buzzer.o: buzzer.h buzzer.c
+	arm-linux-gnueabi-gcc buzzer.c -o buzzer.o -c
+textlcd.o: textlcd.h textlcd.c
+	arm-linux-gnueabi-gcc textlcd.c -o textlcd.o -c
+colorled.o: colorled.h colorled.c
+	arm-linux-gnueabi-gcc colorled.c -o colorled.o -c
+autocartest: led.h button.h buzzer.h textlcd.h colorled.h libMyPeri.a
+	arm-linux-gnueabi-gcc --static -c -o autocar.o autocar.c
+	arm-linux-gnueabi-gcc autocar.o -l MyPeri -L. -lpthread -o autocartest
+
+clean: 
+	rm -rf *.o *.a autocartest
